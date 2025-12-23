@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Duran Band — Duran Duran Tribute</title>
+  <meta name="description" content="The Duran Band — a Duran Duran tribute band. Videos, photos, and upcoming shows." />
+  <style>
+    :root { --bg:#070A12; --card:#0C1224; --text:#EAF0FF; --muted:#A9B3D1; --line:rgba(255,255,255,.10); --accent:#4AA3FF; }
+    *{ box-sizing:border-box; }
+    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial; background:radial-gradient(1200px 600px at 20% 0%, rgba(74,163,255,.22), transparent 60%),
+                                 radial-gradient(900px 500px at 90% 10%, rgba(255,60,120,.16), transparent 60%),
+                                 var(--bg);
+          color:var(--text); }
+    a{ color:inherit; text-decoration:none; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:24px; }
+    header{ position:sticky; top:0; backdrop-filter: blur(10px); background:rgba(7,10,18,.55); border-bottom:1px solid var(--line); z-index:10; }
+    nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .brand img{ height:42px; width:auto; border-radius:8px; background:#fff; padding:6px; }
+    .navlinks{ display:flex; gap:14px; flex-wrap:wrap; }
+    .navlinks a{ color:var(--muted); padding:8px 10px; border-radius:10px; }
+    .navlinks a:hover{ color:var(--text); background:rgba(255,255,255,.06); }
+    .btn{ display:inline-flex; align-items:center; justify-content:center; gap:10px; padding:10px 14px; border-radius:12px;
+          border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--text); }
+    .btn:hover{ border-color:rgba(74,163,255,.55); box-shadow:0 0 0 4px rgba(74,163,255,.12); }
+    .hero{ padding:46px 0 18px; display:grid; grid-template-columns: 1.2fr .8fr; gap:22px; align-items:center; }
+    .tag{ display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border:1px solid var(--line);
+          background:rgba(255,255,255,.04); border-radius:999px; color:var(--muted); font-size:14px; }
+    h1{ margin:14px 0 10px; font-size:44px; line-height:1.05; letter-spacing:-.02em; }
+    .lead{ color:var(--muted); font-size:18px; line-height:1.5; max-width:60ch; }
+    .cta{ margin-top:18px; display:flex; gap:12px; flex-wrap:wrap; }
+    .card{ background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+           border:1px solid var(--line); border-radius:18px; overflow:hidden; }
+    .flyer{ aspect-ratio: 16/10; width:100%; object-fit:cover; display:block; }
+    .section{ padding:26px 0; border-top:1px solid var(--line); }
+    .section h2{ margin:0 0 12px; font-size:22px; }
+    .grid{ display:grid; gap:14px; grid-template-columns: repeat(12, 1fr); }
+    .col-6{ grid-column: span 6; }
+    .col-12{ grid-column: span 12; }
+    .panel{ padding:16px; border-radius:16px; border:1px solid var(--line); background:rgba(12,18,36,.65); }
+    .muted{ color:var(--muted); }
+    .list{ margin:10px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
+    .show{ display:flex; justify-content:space-between; gap:10px; padding:12px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); }
+    .show strong{ display:block; }
+    footer{ padding:24px 0 40px; color:var(--muted); }
+    @media (max-width: 900px){
+      .hero{ grid-template-columns: 1fr; }
+      h1{ font-size:36px; }
+      .col-6{ grid-column: span 12; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <nav>
+        <div class="brand">
+          <img src="logo.jpg" alt="The Duran Band logo" />
+          <div>
+            <div style="font-weight:700;">The Duran Band</div>
+            <div class="muted" style="font-size:13px;">Duran Duran Tribute</div>
+          </div>
+        </div>
+        <div class="navlinks">
+          <a href="#shows">Shows</a>
+          <a href="#media">Media</a>
+          <a href="#about">About</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <a class="btn" href="https://www.facebook.com/profile.php?id=61583879751580" target="_blank" rel="noreferrer">
+          Facebook
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <span class="tag">🎶 Live 80s energy • Iconic hits • Faithful vibe</span>
+        <h1>The Duran Band</h1>
+        <p class="lead">
+          Your Duran Duran fix—tight grooves, big hooks, and the neon-night vibe of the 80s.
+          Book us, see upcoming shows, and follow along on Facebook for updates.
+        </p>
+        <div class="cta">
+          <a class="btn" href="#shows">See upcoming shows</a>
+          <a class="btn" href="#contact">Book the band</a>
+          <a class="btn" href="https://www.facebook.com/profile.php?id=61583879751580" target="_blank" rel="noreferrer">Follow on Facebook</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <img class="flyer" src="club66.jpg" alt="Show flyer" />
+      </div>
+    </section>
+
+    <section id="shows" class="section">
+      <h2>Upcoming shows</h2>
+      <div class="grid">
+        <div class="col-12 panel">
+          <ul class="list">
+            <li class="show">
+              <div>
+                <strong>Club 66 — Edgewood, MD</strong>
+                <div class="muted">Saturday, Jan 17, 2026 • Music at 7:30</div>
+              </div>
+              <div class="muted" style="text-align:right;">
+                Tickets $30 • BYOB<br/>Food available
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2>About</h2>
+      <div class="grid">
+        <div class="col-12 panel">
+          <p class="muted">
+            Paste your band bio here.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Contact / Booking</h2>
+      <div class="grid">
+        <div class="col-12 panel">
+          <a class="btn" href="https://www.facebook.com/profile.php?id=61583879751580" target="_blank" rel="noreferrer">
+            Message us on Facebook
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> The Duran Band
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
