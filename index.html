@@ -39,6 +39,11 @@
     .col-6{ grid-column: span 6; }
     .col-12{ grid-column: span 12; }
     .panel{ padding:16px; border-radius:16px; border:1px solid var(--line); background:rgba(12,18,36,.65); }
+    .media-feature{ display:grid; gap:14px; grid-template-columns: 1.1fr .9fr; align-items:stretch; }
+    .media-feature p{ margin:0; max-width:65ch; }
+    .video-preview{ display:flex; flex-direction:column; justify-content:space-between; gap:12px; padding:14px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); }
+    .video-preview .label{ color:var(--muted); font-size:13px; letter-spacing:.03em; text-transform:uppercase; }
+    .video-preview .title{ margin:0; font-size:18px; }
     .muted{ color:var(--muted); }
     .list{ margin:10px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
     .show{ display:flex; justify-content:space-between; gap:10px; padding:12px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); }
@@ -48,6 +53,7 @@
       .hero{ grid-template-columns: 1fr; }
       h1{ font-size:36px; }
       .col-6{ grid-column: span 12; }
+      .media-feature{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -93,6 +99,22 @@
 
       <div class="card">
         <img class="flyer" src="club66.jpg" alt="Show flyer" />
+      </div>
+    </section>
+
+    <section id="media" class="section">
+      <h2>Media</h2>
+      <div class="grid">
+        <div class="col-12 panel media-feature">
+          <p class="muted">
+            Catch The Duran Band in action on Facebook. Watch the latest performance clips and follow the page for fresh videos from upcoming shows.
+          </p>
+          <a class="video-preview" href="https://www.facebook.com/profile.php?id=61583879751580&sk=videos" target="_blank" rel="noreferrer">
+            <span class="label">Featured video feed</span>
+            <h3 class="title">▶ Preview performances on Facebook</h3>
+            <span class="muted">Opens the band’s video page in a new tab.</span>
+          </a>
+        </div>
       </div>
     </section>
 
