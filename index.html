@@ -49,14 +49,34 @@
     .video-preview .title{ margin:0; font-size:18px; }
     .muted{ color:var(--muted); }
     .list{ margin:10px 0 0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px; }
-    .show{ display:flex; justify-content:space-between; gap:10px; padding:12px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); }
+    .list.compact{ gap:0; margin:0; }
+    .show{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; padding:12px; border:1px solid var(--line); border-radius:14px; background:rgba(255,255,255,.03); }
     .show strong{ display:block; }
+    .show-aside{ text-align:right; }
+    .show.past{
+      display:grid;
+      grid-template-columns:12.5rem minmax(0,1fr);
+      align-items:baseline;
+      gap:2px 16px;
+      padding:9px 2px;
+      border:0;
+      border-radius:0;
+      background:transparent;
+      border-bottom:1px solid var(--line);
+    }
+    .show.past:first-child{ padding-top:0; }
+    .show.past:last-child{ border-bottom:0; padding-bottom:0; }
     footer{ padding:24px 0 40px; color:var(--muted); }
     @media (max-width: 900px){
       .hero{ grid-template-columns: 1fr; }
       h1{ font-size:36px; }
       .col-6{ grid-column: span 12; }
       .media-feature{ grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px){
+      .show{ flex-direction:column; }
+      .show-aside{ text-align:left; }
+      .show.past{ grid-template-columns:1fr; gap:2px; padding:10px 0; }
     }
   </style>
 </head>
@@ -124,53 +144,114 @@
     <section id="shows" class="section">
       <h2>Upcoming shows</h2>
       <div class="grid">
-        <div class="col-12 panel">
-          <ul class="list">
-            <li class="show">
-              <div>
-                <strong>The Dundalk American Legion Hall — Baltimore, MD</strong>
-                <div class="muted">Saturday, Feb 7, 2026 • Music at 9:00</div>
-
-                <p class="muted" style="margin-top:8px;">
-                  Tickets are now available for The Duran Band at The Dundalk American Legion Hall in Baltimore, Maryland. Tickets are $10 each.
-                </p>
-
-                <p class="muted" style="margin-top:6px;">
-                  The multi‑talented Jon Maurer (currently of The Kelly Bell Band) will perform a solo set to open the show.
-                </p>
-              </div>
-
-              <div class="muted" style="text-align:right;">
-                Tickets $10<br/>
-                On sale now<br/>
-                Be there!
-              </div>
-            </li>
-
-            <li class="show">
-              <div>
-                <strong>Club 66 — Edgewood, MD</strong>
-                <div class="muted">Saturday, Jan 17, 2026 • Music at 7:30</div>
-
-                <p class="muted" style="margin-top:8px;">
-                  Tickets are now available for the debut of The Duran Band at Club 66. Tickets are $30 each. Please note Club 66 is a private music club with no liquor license — it is BYOB, so bring your own drinks (and a cooler if you'd like) to avoid high drink prices. A local chef operates in the kitchen and the food is always great.
-                </p>
-
-                <p class="muted" style="margin-top:6px;">
-                  The multi‑talented Jon Maurer (currently of The Kelly Bell Band) will perform a solo set to open the show.
-                </p>
-              </div>
-
-              <div class="muted" style="text-align:right;">
-                Tickets $30 • BYOB<br/>Food available<br/>
-                <a href="tel:4106768966" style="color:var(--accent); text-decoration:underline;">Call the Club 66 Hotline: 410-676-8966</a><br/>
-                Be there!
-              </div>
-            </li>
-          </ul>
-        </div>
+        <div class="col-12 panel" id="upcoming-shows"></div>
       </div>
     </section>
+
+    <section class="section" aria-labelledby="past-shows-heading">
+      <h2 id="past-shows-heading">Past shows</h2>
+      <div class="grid">
+        <div class="col-12 panel" id="past-shows"></div>
+      </div>
+    </section>
+
+    <!-- Add gigs to the shows array. A date before today moves itself to Past shows. -->
+    <script>
+      const shows = [
+        {
+          date: "2026-11-25",
+          venue: "Barrel House Live",
+          city: "Fallston, MD",
+          time: "7:00 PM",
+          address: "2403 Belair Rd",
+          title: "Thanksgiving Eve Bash",
+          guests: "Alex and Zach Acoustic 80's"
+        },
+        { date: "2026-10-02", venue: "Fish Head Cantina", city: "Halethorpe, MD" },
+        { date: "2026-08-30", venue: "LoonAsea Waterfront Restaurant", city: "Essex, MD" },
+        { date: "2026-05-31", venue: "Hub City Brewery", city: "Hagerstown, MD" },
+        { date: "2026-05-03", venue: "LoonAsea Waterfront Restaurant", city: "Essex, MD" },
+        { date: "2026-04-18", venue: "The Stables at Westminster", city: "Westminster, MD" },
+        { date: "2026-04-03", venue: "The Collective (Encore)", city: "Columbia, MD" },
+        { date: "2026-02-07", venue: "The Dundalk American Legion Hall", city: "Baltimore, MD" },
+        { date: "2026-01-17", venue: "Club 66", city: "Edgewood, MD" }
+      ];
+
+      (function () {
+        const WEEKDAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        function escapeHtml(value) {
+          return String(value).replace(/[&<>"']/g, function (char) {
+            return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+          });
+        }
+
+        function formatDate(iso) {
+          const parts = iso.split("-");
+          const year = Number(parts[0]);
+          const month = Number(parts[1]);
+          const day = Number(parts[2]);
+          const date = new Date(year, month - 1, day);
+          return WEEKDAYS[date.getDay()] + ", " + MONTHS[month - 1] + " " + day + ", " + year;
+        }
+
+        function todayIso() {
+          const now = new Date();
+          const month = String(now.getMonth() + 1).padStart(2, "0");
+          const day = String(now.getDate()).padStart(2, "0");
+          return now.getFullYear() + "-" + month + "-" + day;
+        }
+
+        function upcomingNote(show) {
+          const sentences = [];
+          if (show.title && show.address) sentences.push(show.title + " at " + show.address + ".");
+          else if (show.title) sentences.push(show.title + ".");
+          else if (show.address) sentences.push(show.address + ".");
+          if (show.guests) sentences.push("Special guests " + show.guests + ".");
+          return sentences.join(" ");
+        }
+
+        function renderUpcoming(show) {
+          const when = formatDate(show.date) + (show.time ? " • Music at " + show.time : "");
+          const note = upcomingNote(show);
+          const aside = [show.title, show.address, "Be there!"].filter(Boolean).map(escapeHtml).join("<br/>");
+          return '' +
+            '<li class="show">' +
+              '<div>' +
+                '<strong>' + escapeHtml(show.venue) + ' — ' + escapeHtml(show.city) + '</strong>' +
+                '<div class="muted">' + escapeHtml(when) + '</div>' +
+                (note ? '<p class="muted" style="margin-top:8px;">' + escapeHtml(note) + '</p>' : '') +
+              '</div>' +
+              '<div class="muted show-aside">' + aside + '</div>' +
+            '</li>';
+        }
+
+        function renderPast(show) {
+          return '' +
+            '<li class="show past">' +
+              '<div class="muted">' + escapeHtml(formatDate(show.date)) + '</div>' +
+              '<strong>' + escapeHtml(show.venue) + ' — ' + escapeHtml(show.city) + '</strong>' +
+            '</li>';
+        }
+
+        const today = todayIso();
+        const byDate = function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; };
+        const upcoming = shows.filter(function (show) { return show.date >= today; }).sort(byDate);
+        const past = shows.filter(function (show) { return show.date < today; }).sort(function (a, b) { return byDate(b, a); });
+
+        const upcomingEl = document.getElementById("upcoming-shows");
+        const pastEl = document.getElementById("past-shows");
+
+        upcomingEl.innerHTML = upcoming.length
+          ? '<ul class="list">' + upcoming.map(renderUpcoming).join("") + '</ul>'
+          : '<p class="muted" style="margin:0;">No upcoming shows right now. Follow us on Facebook and the next date will show up here.</p>';
+
+        pastEl.innerHTML = past.length
+          ? '<ul class="list compact">' + past.map(renderPast).join("") + '</ul>'
+          : '<p class="muted" style="margin:0;">Past shows will be listed here after they happen.</p>';
+      })();
+    </script>
 
     <section id="about" class="section">
       <h2>About</h2>
